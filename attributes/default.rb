@@ -1,0 +1,1 @@
+default['autoupdates']['enable'] = false

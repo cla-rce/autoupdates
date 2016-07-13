@@ -1,0 +1,41 @@
+[main]
+
+# how often to check for new updates (in seconds)
+run_interval = <%= node['yum-updatesd']['run_interval'] %>
+
+# how often to allow checking on request (in seconds)
+updaterefresh = <%= node['yum-updatesd']['updaterefresh'] %>
+
+# how to send notifications (valid: dbus, email, syslog)
+emit_via = <%= node['yum-updatesd']['emit_via'] %>
+
+# should we listen via dbus to give out update information/check for new updates
+dbus_listener = <%= node['yum-updatesd']['dbus_listener'] %>
+
+# automatically install updates
+do_update = <%= node['yum-updatesd']['do_update'] %>
+
+# automatically download updates
+do_download = <%= node['yum-updatesd']['do_download'] %>
+
+# automatically download deps of updates
+do_download_deps = <%= node['yum-updatesd']['do_download_deps'] %>
+<% case node['yum-updatesd']['emit_via'] %>
+<% when 'email' %>
+
+# List of email addresses to send update notification to. Defaults to 'root@localhost'.
+email_to = <%= node['yum-updatesd']['email_to'] %>
+
+# Email address for update notifications to be from. Defaults to 'yum-updatesd@localhost'.
+email_from = <%= node['yum-updatesd']['email_from'] %>
+
+# SMTP server to use when sending mail, host or a host:port string. Defaults to 'localhost:25'.
+email_server = <%= node['yum-updatesd']['smtp_server'] %>
+<% when 'syslog' %>
+
+# What syslog facility should be used. Defaults to 'DAEMON'.
+syslog_facility = <%= node['yum-updatesd']['syslog_facility'] %>
+
+# Level of syslog messages. Defaults to 'WARN'.
+syslog_level = <%= node['yum-updatesd']['syslog_level'] %>
+<% end %>

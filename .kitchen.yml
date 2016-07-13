@@ -1,0 +1,38 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: centos-5.11
+  - name: centos-6.7
+  - name: centos-7.2
+  - name: ubuntu-12.04
+  - name: ubuntu-14.04
+  - name: ubuntu-16.04
+
+suites:
+  - name: default
+    attributes:
+      apt:
+        unattended_upgrades:
+          random_sleep: 0
+      yum-updatesd:
+        run_interval: 600
+        updaterefresh: 300
+      yum-cron:
+        randomwait: 1
+        cleanday: 4
+        daily:
+          random_sleep: 0
+        hourly:
+          random_sleep: 0
+      autoupdates:
+        enable: true
+    run_list:
+      - recipe[autoupdates]
+  - name: disabled
+    run_list:
+      - recipe[autoupdates_test::disable]
