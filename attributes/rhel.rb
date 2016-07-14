@@ -25,7 +25,7 @@ when 6
   default['yum-cron']['error_level'] = 0
   default['yum-cron']['debug_level'] = 0
   default['yum-cron']['randomwait'] = 60
-  default['yum-cron']['mailto'] = 'root'
+  default['yum-cron']['mailto'] = 'nobody'
   default['yum-cron']['systemname'] = nil
   default['yum-cron']['days_of_week'] = '0123456'
   default['yum-cron']['cleanday'] = '0'
