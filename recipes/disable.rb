@@ -39,3 +39,7 @@ when 'centos', 'redhat'
   end
 
 end
+
+cron 'autoupdates reboot' do
+  action :delete
+end

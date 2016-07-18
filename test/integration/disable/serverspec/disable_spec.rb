@@ -6,6 +6,8 @@ when 'ubuntu'
     its(:content) { should match /^APT::Periodic::Unattended-Upgrade "0";$/ }
   end
 
+  crontab_path = '/var/spool/cron/crontabs/root'
+
 when 'redhat'
   case os[:release].to_i
   when 5
@@ -22,4 +24,10 @@ when 'redhat'
     end
   end
 
+  crontab_path = '/var/spool/cron/root'
+
+end
+
+describe file(crontab_path) do
+  its(:content) { should_not match /# Chef Name: autoupdates reboot/ }
 end

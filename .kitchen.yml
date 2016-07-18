@@ -31,8 +31,13 @@ suites:
           random_sleep: 0
       autoupdates:
         enable: true
+        autoreboot:
+          enable: true
     run_list:
+      - recipe[cron]
       - recipe[autoupdates]
-  - name: disabled
+      - recipe[autoupdates::autoreboot]
+  - name: disable
     run_list:
+      - recipe[cron]
       - recipe[autoupdates_test::disable]

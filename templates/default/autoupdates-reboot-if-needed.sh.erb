@@ -1,0 +1,96 @@
+#!/bin/bash
+
+################################################################################
+# This file is managed by Chef - local changes will be overwritten
+################################################################################
+
+# autoupdates-reboot-if-needed.sh
+# Part of the 'autoupdates' Chef cookbook
+#
+# This script reboots the system if the kernel has been udpated, or if
+# any currently running process has a deleted file open (such as when a library
+# gets updated).
+
+NEED_REBOOT='no'
+
+# Maximum amount of time to wait before scheduling the reboot (in minutes).
+# The script will pick a random number between 0 and RANDOM_WAIT, and will sleep
+# for that many minutes before initiating the reboot.
+<% if node['autoupdates']['autoreboot']['random_wait'] >= 0 %>
+RANDOM_WAIT=<%= node['autoupdates']['autoreboot']['random_wait'] %>
+<% else %>
+RANDOM_WAIT=0
+<% end %>
+
+# How much warning to give users once the reboot is initiated (in minutes)
+<% if node['autoupdates']['autoreboot']['reboot_delay'] >= 0 %>
+REBOOT_DELAY=<%= node['autoupdates']['autoreboot']['reboot_delay'] %>
+<% else %>
+REBOOT_DELAY=0
+<% end %>
+
+################################################################################
+
+<% case node['platform'] %>
+<% when 'centos', 'redhat' %>
+RUNNING_KERNEL=kernel-`/bin/uname -r`
+NEWEST_KERNEL=`/bin/rpm -q kernel | /usr/bin/tail -n 1`
+NEWEST_KERNEL_INSTALLTIME=`/bin/rpm -q kernel --queryformat '%{INSTALLTIME}\n' | /usr/bin/tail -n 1`
+BOOTTIME=`/bin/sed -n '/^btime /s///p' /proc/stat`
+
+# Situations where we choose to not reboot:
+#  - no kernel has been installed via RPM
+#  - the currently-running kernel wasn't installed via RPM
+#  - the currently-running kernel matches the newest installed kernel
+#  - we don't know the install time of the newest kernel
+#  - we don't know the time the system was last booted
+#  - the currently-running kernel is older than the newest installed kernel, but
+#    we've rebooted since the newer kernel was installed
+if [ -z "$NEWEST_KERNEL" ] || \
+   [ -z "$(/bin/rpm -q $RUNNING_KERNEL)" ] || \
+   [ "$RUNNING_KERNEL" == "$NEWEST_KERNEL" ] || \
+   [ -z "$NEWEST_KERNEL_INSTALLTIME" ] || \
+   [ -z "$BOOTTIME" ] || \
+   [ "$NEWEST_KERNEL_INSTALLTIME" -lt "$BOOTTIME" ]; then
+  # Need some sort of command here, otherwise bash bombs out with a syntax error
+  sleep 0
+else
+  echo "A reboot is needed because of a kernel update."
+  NEED_REBOOT='yes'
+fi
+
+# The 'needs-restarting' script isn't included with the 'yum-utils' package on
+# CentOS/RHEL before v6, so we need to test for its presence before using it.
+# This, unfortunately, results in a significant blind spot when it comes to
+# figuring out whether we need to reboot.
+if [ -x /usr/bin/needs-restarting ] && [ -n "`/usr/bin/needs-restarting`" ]; then
+  echo "A reboot is needed because /usr/bin/needs-restarting says so."
+  NEED_REBOOT='yes'
+fi
+<% when 'ubuntu' %>
+# Kernel updates are known to trigger update-notifier-common, which creates
+# /var/run/reboot-required; other types of updates may also do so.
+if [ -f /var/run/reboot-required ]; then
+  echo "A reboot is needed because /var/run/reboot-required exists."
+  NEED_REBOOT='yes'
+fi
+
+if [ -n "`/usr/sbin/checkrestart`" ]; then
+  echo "A reboot is needed because /usr/sbin/checkrestart says so."
+  NEED_REBOOT='yes'
+fi
+<% end %>
+
+if [ "$NEED_REBOOT" == 'yes' ]; then
+  if [ $RANDOM_WAIT -gt 0 ]; then
+    # Need to add 1 to RANDOM_WAIT to get correct results
+    ACTUAL_WAIT=$(( $RANDOM % ( $RANDOM_WAIT + 1 ) ))
+    echo "Waiting for $ACTUAL_WAIT minutes before scheduling the reboot..."
+    sleep $(( $ACTUAL_WAIT * 60 ))
+  fi
+
+  /sbin/shutdown -r $REBOOT_DELAY &
+  disown
+else
+  echo "No reboot is needed."
+fi

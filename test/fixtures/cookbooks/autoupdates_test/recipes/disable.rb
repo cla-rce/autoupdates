@@ -18,7 +18,9 @@
 #
 
 node.default['autoupdates']['enable'] = true
+node.default['autoupdates']['autoreboot']['enable'] = true
 include_recipe 'autoupdates'
+include_recipe 'autoupdates::autoreboot'
 
 # Would be nice to somehow force a converge here, because a delayed :restart
 # from autoupdates::yum-updatesd runs after a delayed :stop from
@@ -27,7 +29,7 @@ include_recipe 'autoupdates'
 #Chef::Runner.new(run_context).converge
 #
 # The signficance of all of this is that we have to run chef-client twice
-# to get the expected results.
+# to get the expected results on yum-updatesd systems (CentOS/RHEL 5).
 
 node.default['autoupdates']['enable'] = false
 include_recipe 'autoupdates::disable'
