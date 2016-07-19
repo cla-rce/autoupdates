@@ -16,14 +16,14 @@ NEED_REBOOT='no'
 # Maximum amount of time to wait before scheduling the reboot (in minutes).
 # The script will pick a random number between 0 and RANDOM_WAIT, and will sleep
 # for that many minutes before initiating the reboot.
-<% if node['autoupdates']['autoreboot']['random_wait'] >= 0 %>
+<% if node['autoupdates']['autoreboot']['random_wait'].to_i >= 0 %>
 RANDOM_WAIT=<%= node['autoupdates']['autoreboot']['random_wait'] %>
 <% else %>
 RANDOM_WAIT=0
 <% end %>
 
 # How much warning to give users once the reboot is initiated (in minutes)
-<% if node['autoupdates']['autoreboot']['reboot_delay'] >= 0 %>
+<% if node['autoupdates']['autoreboot']['reboot_delay'].to_i >= 0 %>
 REBOOT_DELAY=<%= node['autoupdates']['autoreboot']['reboot_delay'] %>
 <% else %>
 REBOOT_DELAY=0

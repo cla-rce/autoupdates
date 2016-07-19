@@ -1,5 +1,11 @@
 # autoupdates Cookbook CHANGELOG
 
+## 1.1.1 (2016-07-19)
+
+- Fix escaping of '%' characters in cron tests
+- Force some template attributes to be converted into integers (chef-client runs
+  would fail if those attributes were entered as strings)
+
 ## 1.1.0 (2016-07-18)
 
 - Add the ability to automatically reboot systems

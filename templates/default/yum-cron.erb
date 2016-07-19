@@ -36,7 +36,7 @@ DEBUG_LEVEL="<%= node['yum-cron']['debug_level'] %>"
 # randomwait is used by yum to wait random time
 # default is 60 so yum waits random time from 1 to 60 minutes
 # the value must not be zero
-<% if node['yum-cron']['randomwait'] < 1 %>
+<% if node['yum-cron']['randomwait'].to_i < 1 %>
 RANDOMWAIT="1"
 <% else %>
 RANDOMWAIT="<%= node['yum-cron']['randomwait'] %>"
