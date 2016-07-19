@@ -66,15 +66,15 @@ end
 
 case node['autoupdates']['autoreboot']['week_of_month']
 when /^(1|first)/i
-  week_test = "[ `date '+\%m'` -ne `date -d '-1 week' '+\%m'` ] &&"
+  week_test = "[ `date '+\\%m'` -ne `date -d '-1 week' '+\\%m'` ] &&"
 when /^(2|second)/i
-  week_test = "[ `date '+\%m'` -eq `date -d '-1 week' '+\%m'` ] &&"
+  week_test = "[ `date '+\\%m'` -eq `date -d '-1 week' '+\\%m'` ] &&"
 when /^(3|third)/i
-  week_test = "[ `date '+\%m'` -eq `date -d '-2 week' '+\%m'` ] &&"
+  week_test = "[ `date '+\\%m'` -eq `date -d '-2 week' '+\\%m'` ] &&"
 when /^(4|fourth)/i
-  week_test = "[ `date '+\%m'` -eq `date -d '-3 week' '+\%m'` ] &&"
+  week_test = "[ `date '+\\%m'` -eq `date -d '-3 week' '+\\%m'` ] &&"
 when /^last/i
-  week_test = "[ `date '+\%m'` -ne `date -d '+1 week' '+\%m'` ] &&"
+  week_test = "[ `date '+\\%m'` -ne `date -d '+1 week' '+\\%m'` ] &&"
 else
   week_test = ''
 end
