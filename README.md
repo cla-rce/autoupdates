@@ -8,15 +8,19 @@ scope to suit your needs.
 ## Requirements
 
 ### Platforms
+
 - Ubuntu 12.04+
 - CentOS 5+
 - RHEL 5+
 
 ### Chef
+
 - Chef 12.1+ (because its `package` resource accepts an array of package names)
 
 ### Cookbooks
+
 - [apt](https://supermarket.chef.io/cookbooks/apt) 2.5.0+
+- [cron_wom](https://github.com/cla-rce/cron_wom)
 
 ## Usage
 
@@ -84,15 +88,15 @@ When using `autoupdates::autoreboot`:
 - `['autoupdates']['autoreboot']['day_of_week']` - Sunday = 0|7, Monday = 1,
   Tuesday = 2, ...
 
+The timing attributes are fed directly to a [cron_wom](https://github.com/cla-rce/cron_wom)
+resource.
+
 **NOTE 1:** It is possible to set conflicting options that will result in
 a reboot never occurring (e.g. `week_of_month` = first and `day_of_month` = 8).
 
 **NOTE 2:** Many cron implementations will execute a task if either
 `day_of_month` matches **OR** `day_of_week` matches. Keep this in mind when
 picking a time, and make use of `week_of_month` when necessary.
-
-Except for `week_of_month`, the timing attributes are fed directly to a Chef
-`cron` resource (see <https://docs.chef.io/resource_cron.html>).
 
 N.B.: These are some default cron daily/weekly/monthly times - you might want to
 steer clear of them if you have any jobs that take a while to finish:

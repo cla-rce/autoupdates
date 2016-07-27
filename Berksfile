@@ -2,9 +2,10 @@ source 'https://supermarket.getchef.com/'
 
 metadata
 
-cookbook 'apt', git: 'git@github.com:chef-cookbooks/apt.git'
+cookbook 'apt'
+cookbook 'cron_wom', git: 'git@github.com:cla-rce/cron_wom.git'
 
 group :integration do
-  cookbook 'cron', git: 'git@github.com:chef-cookbooks/cron.git'
+  cookbook 'cron'
   cookbook 'autoupdates_test', path: './test/fixtures/cookbooks/autoupdates_test'
 end

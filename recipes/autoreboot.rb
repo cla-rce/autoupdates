@@ -64,30 +64,14 @@ template '/usr/local/sbin/autoupdates-reboot-if-needed.sh' do
   mode '0755'
 end
 
-case node['autoupdates']['autoreboot']['week_of_month']
-when /^(1|first)/i
-  week_test = "[ `date '+\\%m'` -ne `date -d '-1 week' '+\\%m'` ] &&"
-when /^(2|second)/i
-  week_test = "[ `date '+\\%m'` -eq `date -d '-1 week' '+\\%m'` ] &&"
-when /^(3|third)/i
-  week_test = "[ `date '+\\%m'` -eq `date -d '-2 week' '+\\%m'` ] &&"
-when /^(4|fourth)/i
-  week_test = "[ `date '+\\%m'` -eq `date -d '-3 week' '+\\%m'` ] &&"
-when /^last/i
-  week_test = "[ `date '+\\%m'` -ne `date -d '+1 week' '+\\%m'` ] &&"
-else
-  week_test = ''
-end
-
-cron 'autoupdates reboot' do
-  # Would rather set MAILTO='' instead of using output redirection, but a bug
-  # in Chef prevents us from doing so (see https://github.com/chef/chef/pull/311
-  # and https://github.com/chef/chef/issues/4900 ).
-  command "#{week_test} /usr/local/sbin/autoupdates-reboot-if-needed.sh >/dev/null 2>&1"
+cron_wom 'autoupdates reboot' do
+  command '/usr/local/sbin/autoupdates-reboot-if-needed.sh'
   user 'root'
+  mailto ''
   minute node['autoupdates']['autoreboot']['minute']
   hour node['autoupdates']['autoreboot']['hour']
   day node['autoupdates']['autoreboot']['day_of_month']
   month node['autoupdates']['autoreboot']['month']
   weekday node['autoupdates']['autoreboot']['day_of_week']
+  week_of_month node['autoupdates']['autoreboot']['week_of_month']
 end

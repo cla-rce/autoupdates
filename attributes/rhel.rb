@@ -1,4 +1,4 @@
-return if !['centos', 'redhat'].include?(node['platform'])
+return if !platform?('centos', 'redhat')
 
 default['autoupdates']['yum']['exclude'] = []
 

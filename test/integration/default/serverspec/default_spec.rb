@@ -21,7 +21,6 @@ when 'ubuntu'
   end
 
   script_line = 'if [ -f /var/run/reboot-required ]; then'
-  crontab_path = '/var/spool/cron/crontabs/root'
 
 when 'redhat'
   case os[:release].to_i
@@ -87,7 +86,6 @@ when 'redhat'
   end
 
   script_line = '   [ "$NEWEST_KERNEL_INSTALLTIME" -lt "$BOOTTIME" ]; then'
-  crontab_path = '/var/spool/cron/root'
 end
 
 describe file('/usr/local/sbin/autoupdates-reboot-if-needed.sh') do
@@ -97,7 +95,7 @@ describe file('/usr/local/sbin/autoupdates-reboot-if-needed.sh') do
   its(:content) { should match /^#{Regexp.escape(script_line)}$/ }
 end
 
-describe file(crontab_path) do
-  cron_line = Regexp.escape("0 5 * * 6 [ `date '+%m'` -ne `date -d '-1 week' '+%m'` ] && /usr/local/sbin/autoupdates-reboot-if-needed.sh >/dev/null 2>&1")
-  its(:content) { should match /^#{cron_line}$/ }
+describe command('crontab -l') do
+  cron_line = "0 5 * * 6 [ `date '+\\%m'` -ne `date -d '-1 week' '+\\%m'` ] && /usr/local/sbin/autoupdates-reboot-if-needed.sh >/dev/null 2>&1"
+  its(:stdout) { should match /^#{Regexp.escape(cron_line)}$/ }
 end

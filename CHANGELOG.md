@@ -1,5 +1,13 @@
 # autoupdates Cookbook CHANGELOG
 
+## 1.1.2 (2016-07-27)
+
+- Move cron week-of-month logic to a separate cookbook ([cron_wom](https://github.com/cla-rce/cron_wom))
+- Clean up some cookbook refs in Berksfile
+- Switch to prettier `platform?` method in attributes files
+- Make integration tests more portable by using the `crontab` command instead of
+  reading crontab files directly
+
 ## 1.1.1 (2016-07-19)
 
 - Fix escaping of '%' characters in cron tests

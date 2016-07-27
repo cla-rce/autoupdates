@@ -1,4 +1,4 @@
-return if node['platform'] != 'ubuntu'
+return if !platform?('ubuntu')
 
 default['autoupdates']['apt']['exclude'] = []
 
