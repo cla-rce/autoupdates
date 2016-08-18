@@ -6,6 +6,10 @@ when 'ubuntu'
     it { should be_installed }
   end
 
+  describe package('debian-goodies') do
+    it { should be_installed }
+  end
+
   describe file('/etc/apt/apt.conf.d/20auto-upgrades') do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }

@@ -1,5 +1,12 @@
 # autoupdates Cookbook CHANGELOG
 
+## 1.1.3 (2016-08-18)
+
+- Work around a problem that was preventing the `update-notifier-common` package
+  from being automatically installed.
+- Integration testing: add `apt` to run lists to ensure Apt's cache is
+  up-to-date, ensure the `debian-goodies` package is installed.
+
 ## 1.1.2 (2016-07-27)
 
 - Move cron week-of-month logic to a separate cookbook ([cron_wom](https://github.com/cla-rce/cron_wom))

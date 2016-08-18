@@ -23,6 +23,17 @@ case node['platform']
 when 'ubuntu'
   return if node['platform_version'].to_f < 12.04
 
+  # Work around a problem where the 'apt' cookbook creates this file. dpkg also
+  # tries to create it when we install update-notifier-common, but it fails
+  # because it thinks the file was user-created.
+  #
+  # If the update-notifier-common package is fully installed, we're good to go,
+  # and we *don't* want to delete this file.
+  file '/etc/apt/apt.conf.d/15update-stamp' do
+    action :delete
+    not_if 'dpkg-query -W -f \'${db:Status-Abbrev} ${binary:Package}\\n\' update-notifier-common | grep \'^.i\''
+  end
+
   # update-notifier-common might not be included on some minimal installations,
   # and we need it to ensure that reboot notifications are issued (even if
   # we're not rebooting automatically). It does catch kernel updates.
