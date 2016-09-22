@@ -1,5 +1,10 @@
 # autoupdates Cookbook CHANGELOG
 
+## 1.1.4 (2016-09-22)
+
+- Fix usage of `dpkg-query` so it works properly on Ubuntu 12.04
+- Update OS list in `.kitchen.yml`, add `chefignore`
+
 ## 1.1.3 (2016-08-18)
 
 - Work around a problem that was preventing the `update-notifier-common` package
