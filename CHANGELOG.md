@@ -1,5 +1,10 @@
 # autoupdates Cookbook CHANGELOG
 
+## 1.1.5 (2016-12-01)
+
+- Use the `node['packages']` attribute to determine if `update-notifier-common`
+  is installed, instead of executing `dpkg-query`.
+
 ## 1.1.4 (2016-09-22)
 
 - Fix usage of `dpkg-query` so it works properly on Ubuntu 12.04
