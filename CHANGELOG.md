@@ -1,5 +1,10 @@
 # autoupdates Cookbook CHANGELOG
 
+## 1.1.6 (2017-03-06)
+
+- Work around the edge case where the `node['packages']` attribute is `nil`.
+  (It used to cause a NoMethodError.)
+
 ## 1.1.5 (2016-12-01)
 
 - Use the `node['packages']` attribute to determine if `update-notifier-common`

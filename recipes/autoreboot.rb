@@ -31,7 +31,13 @@ when 'ubuntu'
   # and we *don't* want to delete this file.
   file '/etc/apt/apt.conf.d/15update-stamp' do
     action :delete
-    not_if { node['packages']['update-notifier-common'] }
+    not_if {
+      if node['packages'].nil?
+        shell_out('dpkg-query -l update-notifier-common').stdout.match(/^.i  update-notifier-common/)
+      else
+        node['packages']['update-notifier-common']
+      end
+    }
   end
 
   # update-notifier-common might not be included on some minimal installations,
