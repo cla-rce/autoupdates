@@ -48,6 +48,13 @@ else
     variables :params => node['yum-cron']['hourly'].to_hash
   end
 
+  file '/etc/cron.hourly/0yum-hourly.cron' do
+    if node['yum-cron']['hourly']['enable']
+      mode '0755'
+    else
+      mode '0644'
+    end
+  end
 end
 
 service 'yum-cron' do

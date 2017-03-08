@@ -51,6 +51,7 @@ else
   default['yum-cron']['daily']['mdpolicy'] = 'group:main'
   default['yum-cron']['daily']['assumeyes'] = 'False'
 
+  default['yum-cron']['hourly']['enable'] = false
   default['yum-cron']['hourly']['update_cmd'] = 'default'
   default['yum-cron']['hourly']['update_messages'] = 'no'
   default['yum-cron']['hourly']['download_updates'] = 'no'

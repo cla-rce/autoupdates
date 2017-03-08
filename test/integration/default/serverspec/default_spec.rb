@@ -87,6 +87,12 @@ when 'redhat'
       its(:content) { should match /^output_width = 80$/ }
     end
 
+    describe file('/etc/cron.hourly/0yum-hourly.cron') do
+      it { should be_owned_by 'root' }
+      it { should be_grouped_into 'root' }
+      it { should be_mode 644 }
+    end
+
   end
 
   script_line = '   [ "$NEWEST_KERNEL_INSTALLTIME" -lt "$BOOTTIME" ]; then'

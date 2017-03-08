@@ -1,5 +1,13 @@
 # autoupdates Cookbook CHANGELOG
 
+## 1.2.0 (2017-03-08)
+
+- Add an attribute to disable `yum-cron` hourly updates, and disable them
+  by default. (`yum-cron` holds an exclusive lock on the yum database,
+  even during its random sleep period - up to 15 min by default. This causes
+  problems for anything needing to touch the yum database - chef-client being
+  one example.)
+
 ## 1.1.6 (2017-03-06)
 
 - Work around the edge case where the `node['packages']` attribute is `nil`.
