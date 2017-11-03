@@ -18,4 +18,4 @@ default['apt']['unattended_upgrades']['package_blacklist'] = node['autoupdates']
 default['apt']['unattended_upgrades']['auto_fix_interrupted_dpkg'] = true
 default['apt']['unattended_upgrades']['minimal_steps'] = true
 default['apt']['unattended_upgrades']['remove_unused_dependencies'] = true
-default['apt']['unattended_upgrades']['random_sleep'] = 3600
+default['apt']['unattended_upgrades']['random_sleep'] = 900

@@ -1,5 +1,9 @@
 # autoupdates Cookbook CHANGELOG
 
+## 1.2.1 (2017-11-03)
+
+- Reduce the default random wait times
+
 ## 1.2.0 (2017-03-08)
 
 - Add an attribute to disable `yum-cron` hourly updates, and disable them

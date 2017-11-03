@@ -24,7 +24,7 @@ when 6
   default['yum-cron']['download_only'] = 'no'
   default['yum-cron']['error_level'] = 0
   default['yum-cron']['debug_level'] = 0
-  default['yum-cron']['randomwait'] = 60
+  default['yum-cron']['randomwait'] = 15
   default['yum-cron']['mailto'] = 'nobody'
   default['yum-cron']['systemname'] = nil
   default['yum-cron']['days_of_week'] = '0123456'
@@ -37,7 +37,7 @@ else
   default['yum-cron']['daily']['update_messages'] = 'yes'
   default['yum-cron']['daily']['download_updates'] = 'yes'
   default['yum-cron']['daily']['apply_updates'] = 'yes'
-  default['yum-cron']['daily']['random_sleep'] = 60
+  default['yum-cron']['daily']['random_sleep'] = 15
   default['yum-cron']['daily']['system_name'] = 'None'
   default['yum-cron']['daily']['emit_via'] = 'stdio'
   default['yum-cron']['daily']['output_width'] = 80
@@ -56,7 +56,7 @@ else
   default['yum-cron']['hourly']['update_messages'] = 'no'
   default['yum-cron']['hourly']['download_updates'] = 'no'
   default['yum-cron']['hourly']['apply_updates'] = 'no'
-  default['yum-cron']['hourly']['random_sleep'] = 15
+  default['yum-cron']['hourly']['random_sleep'] = 10
   default['yum-cron']['hourly']['system_name'] = 'None'
   default['yum-cron']['hourly']['emit_via'] = 'stdio'
   default['yum-cron']['hourly']['output_width'] = 80
