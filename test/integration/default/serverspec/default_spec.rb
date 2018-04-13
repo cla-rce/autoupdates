@@ -28,23 +28,6 @@ when 'ubuntu'
 
 when 'redhat'
   case os[:release].to_i
-  when 5
-    describe package('yum-updatesd') do
-      it { should be_installed }
-    end
-
-    describe service('yum-updatesd') do
-      it { should be_enabled }
-      it { should be_running }
-    end
-
-    describe file('/etc/yum/yum-updatesd.conf') do
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
-      its(:content) { should match /^run_interval = 600$/ }
-    end
-
   when 6
     describe package('yum-cron') do
       it { should be_installed }

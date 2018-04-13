@@ -115,10 +115,6 @@ not just `yum-updatesd`. If that's OK in your situation, you could use the
 [yum](https://supermarket.chef.io/cookbooks/yum) cookbook to manage
 `/etc/yum.conf`.
 
-- Testing of `autoupdates::disable` needs to be improved - at the moment,
-testing fails on first run for CentOS/RHEL 5. After a second converge,
-it works as expected.
-
 - `autoupdates::reboot` has a significant blind spot when attempting to figure
 out whether a CentOS/RHEL 5 system needs to be rebooted, because there isn't a
 system-provided "reboot checker" script.

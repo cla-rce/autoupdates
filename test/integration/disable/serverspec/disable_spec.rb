@@ -7,19 +7,9 @@ when 'ubuntu'
   end
 
 when 'redhat'
-  case os[:release].to_i
-  when 5
-    describe service('yum-updatesd') do
-      it { should_not be_enabled }
-      it { should_not be_running }
-    end
-
-  # v6+
-  else
-    describe service('yum-cron') do
-      it { should_not be_enabled }
-      it { should_not be_running }
-    end
+  describe service('yum-cron') do
+    it { should_not be_enabled }
+    it { should_not be_running }
   end
 
 end
