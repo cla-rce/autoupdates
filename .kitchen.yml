@@ -4,6 +4,9 @@ driver:
 
 provisioner:
   name: chef_zero
+  retry_on_exit_code:
+    - 3
+  max_retries: 1
 
 verifier:
   name: inspec

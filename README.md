@@ -119,11 +119,17 @@ not just `yum-updatesd`. If that's OK in your situation, you could use the
 out whether a CentOS/RHEL 5 system needs to be rebooted, because there isn't a
 system-provided "reboot checker" script.
 
+- Testing of Ubuntu 12.04 does not automatically resume as expected, however,
+manually resuming the test does work. (For some reason, chef-client is always
+returning an exit code of 1 on failure, even when a different exit code is
+specified. This happens under both Chef 12 and 13.) Seeing as Ubuntu 12.04 is
+EOL anyway, this problem is not worth fixing.
+
 ## License & Authors
 
 **Author:** Peter Walz, University of Minnesota ([pnw@umn.edu](mailto:pnw@umn.edu))
 
-**Copyright:** 2016, Peter Walz and the Regents of the University of Minnesota
+**Copyright:** 2018, Peter Walz and the Regents of the University of Minnesota
 
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
