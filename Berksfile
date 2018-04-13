@@ -7,5 +7,5 @@ cookbook 'cron_wom', git: 'git@github.com:cla-rce/cron_wom.git'
 
 group :integration do
   cookbook 'cron'
-  cookbook 'autoupdates_test', path: './test/fixtures/cookbooks/autoupdates_test'
+  cookbook 'autoupdates_test', path: './test/cookbooks/autoupdates_test'
 end

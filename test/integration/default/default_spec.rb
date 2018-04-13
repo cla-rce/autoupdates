@@ -1,7 +1,5 @@
-require_relative './spec_helper'
-
 case os[:family]
-when 'ubuntu'
+when 'debian'
   describe package('unattended-upgrades') do
     it { should be_installed }
   end
@@ -11,16 +9,16 @@ when 'ubuntu'
   end
 
   describe file('/etc/apt/apt.conf.d/20auto-upgrades') do
-    it { should be_owned_by 'root' }
-    it { should be_grouped_into 'root' }
-    it { should be_mode 644 }
+    its(:owner) { should eq 'root' }
+    its(:group) { should eq 'root' }
+    its(:mode) { should eq 0644 }
     its(:content) { should match /^APT::Periodic::Unattended-Upgrade "1";$/ }
   end
 
   describe file('/etc/apt/apt.conf.d/50unattended-upgrades') do
-    it { should be_owned_by 'root' }
-    it { should be_grouped_into 'root' }
-    it { should be_mode 644 }
+    its(:owner) { should eq 'root' }
+    its(:group) { should eq 'root' }
+    its(:mode) { should eq 0644 }
     its(:content) { should match /^Unattended-Upgrade::Allowed-Origins {\n\s+"\${distro_id}:\${distro_codename}";$/ }
   end
 
@@ -38,9 +36,9 @@ when 'redhat'
     end
 
     describe file('/etc/sysconfig/yum-cron') do
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
+      its(:owner) { should eq 'root' }
+      its(:group) { should eq 'root' }
+      its(:mode) { should eq 0644 }
       its(:content) { should match /^CHECK_ONLY="no"$/ }
     end
 
@@ -55,25 +53,25 @@ when 'redhat'
     end
 
     describe file('/etc/yum/yum-cron.conf') do
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
+      its(:owner) { should eq 'root' }
+      its(:group) { should eq 'root' }
+      its(:mode) { should eq 0644 }
       its(:content) { should match /^apply_updates = yes$/ }
       its(:content) { should match /^output_width = 80$/ }
     end
 
     describe file('/etc/yum/yum-cron-hourly.conf') do
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
+      its(:owner) { should eq 'root' }
+      its(:group) { should eq 'root' }
+      its(:mode) { should eq 0644 }
       its(:content) { should match /^apply_updates = no$/ }
       its(:content) { should match /^output_width = 80$/ }
     end
 
     describe file('/etc/cron.hourly/0yum-hourly.cron') do
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
+      its(:owner) { should eq 'root' }
+      its(:group) { should eq 'root' }
+      its(:mode) { should eq 0644 }
     end
 
   end
@@ -82,9 +80,9 @@ when 'redhat'
 end
 
 describe file('/usr/local/sbin/autoupdates-reboot-if-needed.sh') do
-  it { should be_owned_by 'root' }
-  it { should be_grouped_into 'root' }
-  it { should be_mode 755 }
+  its(:owner) { should eq 'root' }
+  its(:group) { should eq 'root' }
+  its(:mode) { should eq 0755 }
   its(:content) { should match /^#{Regexp.escape(script_line)}$/ }
 end
 

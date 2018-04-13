@@ -1,7 +1,5 @@
-require_relative './spec_helper'
-
 case os[:family]
-when 'ubuntu'
+when 'debian'
   describe file('/etc/apt/apt.conf.d/20auto-upgrades') do
     its(:content) { should match /^APT::Periodic::Unattended-Upgrade "0";$/ }
   end
