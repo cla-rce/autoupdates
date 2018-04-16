@@ -2,7 +2,7 @@
 # Cookbook Name:: autoupdates
 # Recipe:: default
 #
-# Copyright 2016, Peter Walz, (C) Regents of the University of Minnesota
+# Copyright 2018, Peter Walz, (C) Regents of the University of Minnesota
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ return if !node['autoupdates']['enable']
 case node['platform']
 when 'ubuntu'
   return if node['platform_version'].to_f < 12.04
+  include_recipe 'apt'
   include_recipe 'apt::unattended-upgrades'
 
 when 'centos', 'redhat'

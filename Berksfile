@@ -2,7 +2,6 @@ source 'https://supermarket.getchef.com/'
 
 metadata
 
-cookbook 'apt'
 cookbook 'cron_wom', git: 'git@github.com:cla-rce/cron_wom.git'
 
 group :integration do

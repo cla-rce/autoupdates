@@ -1,5 +1,13 @@
 # autoupdates Cookbook CHANGELOG
 
+## 1.2.2 (2018-04-13)
+
+- On Ubuntu, default to keeping existing config files and upgrading a package,
+  instead of skipping a package when it needs a reponse to a conffile prompt.
+- Switch to InSpec
+- Remove CentOS 5 from testing
+- Improve testing of `autoupdates::disable`
+
 ## 1.2.1 (2017-11-03)
 
 - Reduce the default random wait times

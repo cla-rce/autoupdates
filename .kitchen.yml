@@ -39,12 +39,10 @@ suites:
         autoreboot:
           enable: true
     run_list:
-      - recipe[apt]
       - recipe[cron]
       - recipe[autoupdates]
       - recipe[autoupdates::autoreboot]
   - name: disable
     run_list:
-      - recipe[apt]
       - recipe[cron]
       - recipe[autoupdates_test::disable]

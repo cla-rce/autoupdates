@@ -19,3 +19,6 @@ default['apt']['unattended_upgrades']['auto_fix_interrupted_dpkg'] = true
 default['apt']['unattended_upgrades']['minimal_steps'] = true
 default['apt']['unattended_upgrades']['remove_unused_dependencies'] = true
 default['apt']['unattended_upgrades']['random_sleep'] = 900
+
+default['apt']['confd']['force_confdef'] = true
+default['apt']['confd']['force_confold'] = true

@@ -22,6 +22,13 @@ when 'debian'
     its(:content) { should match /^Unattended-Upgrade::Allowed-Origins {\n\s+"\${distro_id}:\${distro_codename}";$/ }
   end
 
+  describe file('/etc/apt/apt.conf.d/10dpkg-options') do
+    its(:owner) { should eq 'root' }
+    its(:group) { should eq 'root' }
+    its(:mode) { should eq 0644 }
+    its(:content) { should match /"--force-confdef";.*"--force-confold";/ }
+  end
+
   script_line = 'if [ -f /var/run/reboot-required ]; then'
 
 when 'redhat'
