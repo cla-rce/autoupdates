@@ -1,5 +1,10 @@
 # autoupdates Cookbook CHANGELOG
 
+## 1.2.3 (2018-12-14)
+
+- Flatten the `templates` directory structure
+- Add some logging to the `autoupdates-reboot-if-needed.sh` script
+
 ## 1.2.2 (2018-04-13)
 
 - On Ubuntu, default to keeping existing config files and upgrading a package,

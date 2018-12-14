@@ -29,6 +29,37 @@ REBOOT_DELAY=<%= node['autoupdates']['autoreboot']['reboot_delay'] %>
 REBOOT_DELAY=0
 <% end %>
 
+<% case node['platform'] %>
+<% when 'centos', 'redhat' %>
+LOGGER="/bin/logger"
+PROC_NAME="`/bin/basename $0`"
+<% when 'ubuntu' %>
+LOGGER="/usr/bin/logger"
+PROC_NAME="`/usr/bin/basename $0`"
+<% end %>
+
+################################################################################
+
+# Quick log helper - logs the provided message to syslog. Defaults to a facility
+# of user and a level of notice. The level can be overridden by providing
+# the desired level as the second argument.
+
+log () {
+  local level="notice"
+  [ -n "$2" ] && level="$2"
+
+  $LOGGER -t "$PROC_NAME" -i -p "user.$level" -- "$1"
+}
+
+################################################################################
+
+# Takes the input string and sends it to syslog and STDOUT
+
+echolog () {
+  echo "$1"
+  log "$1"
+}
+
 ################################################################################
 
 <% case node['platform'] %>
@@ -37,6 +68,8 @@ RUNNING_KERNEL=kernel-`/bin/uname -r`
 NEWEST_KERNEL=`/bin/rpm -q kernel | /usr/bin/tail -n 1`
 NEWEST_KERNEL_INSTALLTIME=`/bin/rpm -q kernel --queryformat '%{INSTALLTIME}\n' | /usr/bin/tail -n 1`
 BOOTTIME=`/bin/sed -n '/^btime /s///p' /proc/stat`
+
+echolog "RUNNING_KERNEL=$RUNNING_KERNEL NEWEST_KERNEL=$NEWEST_KERNEL NEWEST_KERNEL_INSTALLTIME=$NEWEST_KERNEL_INSTALLTIME BOOTTIME=$BOOTTIME"
 
 # Situations where we choose to not reboot:
 #  - no kernel has been installed via RPM
@@ -55,7 +88,7 @@ if [ -z "$NEWEST_KERNEL" ] || \
   # Need some sort of command here, otherwise bash bombs out with a syntax error
   sleep 0
 else
-  echo "A reboot is needed because of a kernel update."
+  echolog "A reboot is needed because of a kernel update."
   NEED_REBOOT='yes'
 fi
 
@@ -64,19 +97,19 @@ fi
 # This, unfortunately, results in a significant blind spot when it comes to
 # figuring out whether we need to reboot.
 if [ -x /usr/bin/needs-restarting ] && [ -n "`/usr/bin/needs-restarting`" ]; then
-  echo "A reboot is needed because /usr/bin/needs-restarting says so."
+  echolog "A reboot is needed because /usr/bin/needs-restarting says so."
   NEED_REBOOT='yes'
 fi
 <% when 'ubuntu' %>
 # Kernel updates are known to trigger update-notifier-common, which creates
 # /var/run/reboot-required; other types of updates may also do so.
 if [ -f /var/run/reboot-required ]; then
-  echo "A reboot is needed because /var/run/reboot-required exists."
+  echolog "A reboot is needed because /var/run/reboot-required exists."
   NEED_REBOOT='yes'
 fi
 
 if [ -n "`/usr/sbin/checkrestart`" ]; then
-  echo "A reboot is needed because /usr/sbin/checkrestart says so."
+  echolog "A reboot is needed because /usr/sbin/checkrestart says so."
   NEED_REBOOT='yes'
 fi
 <% end %>
@@ -85,12 +118,13 @@ if [ "$NEED_REBOOT" == 'yes' ]; then
   if [ $RANDOM_WAIT -gt 0 ]; then
     # Need to add 1 to RANDOM_WAIT to get correct results
     ACTUAL_WAIT=$(( $RANDOM % ( $RANDOM_WAIT + 1 ) ))
-    echo "Waiting for $ACTUAL_WAIT minutes before scheduling the reboot..."
+    echolog "Waiting for $ACTUAL_WAIT minutes before scheduling the reboot..."
     sleep $(( $ACTUAL_WAIT * 60 ))
   fi
 
+  echolog "Scheduling the reboot."
   /sbin/shutdown -r $REBOOT_DELAY &
   disown
 else
-  echo "No reboot is needed."
+  echolog "No reboot is needed."
 fi
