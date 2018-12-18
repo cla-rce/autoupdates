@@ -74,15 +74,19 @@ directory '/usr/local/sbin' do
   mode '0755'
 end
 
-template '/usr/local/sbin/autoupdates-reboot-if-needed.sh' do
-  source 'autoupdates-reboot-if-needed.sh.erb'
+file '/usr/local/sbin/autoupdates-reboot-if-needed.sh' do
+  action :delete
+end
+
+template '/usr/local/sbin/reboot-if-needed.sh' do
+  source 'reboot-if-needed.sh.erb'
   owner 'root'
   group 'root'
   mode '0755'
 end
 
 cron_wom 'autoupdates reboot' do
-  command '/usr/local/sbin/autoupdates-reboot-if-needed.sh'
+  command '/usr/local/sbin/reboot-if-needed.sh'
   user 'root'
   mailto ''
   minute node['autoupdates']['autoreboot']['minute']

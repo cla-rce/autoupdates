@@ -1,5 +1,9 @@
 # autoupdates Cookbook CHANGELOG
 
+## 1.2.4 (2018-12-18)
+
+- Rename the reboot script to make log messages a little nicer
+
 ## 1.2.3 (2018-12-14)
 
 - Flatten the `templates` directory structure

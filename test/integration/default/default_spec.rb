@@ -86,7 +86,7 @@ when 'redhat'
   script_line = '   [ "$NEWEST_KERNEL_INSTALLTIME" -lt "$BOOTTIME" ]; then'
 end
 
-describe file('/usr/local/sbin/autoupdates-reboot-if-needed.sh') do
+describe file('/usr/local/sbin/reboot-if-needed.sh') do
   its(:owner) { should eq 'root' }
   its(:group) { should eq 'root' }
   its(:mode) { should eq 0755 }
@@ -94,6 +94,6 @@ describe file('/usr/local/sbin/autoupdates-reboot-if-needed.sh') do
 end
 
 describe command('crontab -l') do
-  cron_line = "0 5 * * 6 [ `date '+\\%m'` -ne `date -d '-1 week' '+\\%m'` ] && /usr/local/sbin/autoupdates-reboot-if-needed.sh >/dev/null 2>&1"
+  cron_line = "0 5 * * 6 [ `date '+\\%m'` -ne `date -d '-1 week' '+\\%m'` ] && /usr/local/sbin/reboot-if-needed.sh >/dev/null 2>&1"
   its(:stdout) { should match /^#{Regexp.escape(cron_line)}$/ }
 end
